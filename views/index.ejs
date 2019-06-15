@@ -13,6 +13,13 @@
           <input name="city" type="text" class="search-input" placeholder="Enter a City" required>
           <input type="submit" class="search-button" value="Get Weather">
         </form>
+        <% if(weather !== null){ %>
+            <p><%= weather %></p>
+          <% } %>
+  
+          <% if(error !== null){ %>
+            <p><%= error %></p>
+          <% } %>
       </fieldset>
     </div>
   </body>
