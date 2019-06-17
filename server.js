@@ -22,16 +22,29 @@ app.post('/', function (req, res) {
     } else {
       let weather = JSON.parse(body)
       if(weather.main === undefined){
-        res.render('index', {weather: null, error: 'Error, please try again'});
+        res.render('index', {weather: null, error: 'The city you entered was not found, please try again'});
       } else {
-        let celsiusTemp = ((weather.main.temp)-273.15).toFixed(2)
-        let message = `It's ${celsiusTemp} degrees in ${weather.name}!`;
-        res.render('index', {weather: message, error: null});
-    }}
+        let humidity = weather.main.humidity
+        let celsiusTemp = ((weather.main.temp)-273.15).toFixed(1)
+        let minTemp = ((weather.main.temp_min)-273.15).toFixed(1)
+        let maxTemp = ((weather.main.temp_max)-273.15).toFixed(1)
+        function cloudy() {
+          if(weather.clouds.all >= 40) {
+           return `☁️`
+          } else {
+           return `️☀️`
+          }
+        }
+        let text = `It's ${celsiusTemp} degrees in ${weather.name}! 
+        There'll be a maximum temperature of ${maxTemp} degrees and a minimum of ${minTemp}, 
+        with a humidity of ${humidity} % ${cloudy()}`;
+
+        res.render('index', { weather: text, error: null });
+      }
+    }
   });
-  console.log(req.body.city);
 })
 
 app.listen(3000, function () {
-  console.log('Weather app listening on port 3000!')
+  console.log('Weather app listening on port 3000 😎')
 })
